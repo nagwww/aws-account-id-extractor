@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS Account ID Extractor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background-color: #f2f2f2;
+    }
+    .navbar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 10px 20px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #4285f4; /* Google Blue */
+      font-size: 14px;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+    h1 {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      color: #4285f4; /* Google Blue */
+    }
+    h1 span:nth-child(2) {
+      color: #ea4335; /* Google Red */
+    }
+    h1 span:nth-child(3) {
+      color: #fbbc05; /* Google Yellow */
+    }
+    h1 span:nth-child(4) {
+      color: #34a853; /* Google Green */
+    }
+    input {
+      padding: 14px;
+      font-size: 16px;
+      width: 400px;
+      border: 1px solid #dcdfe1;
+      border-radius: 24px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+      outline: none;
+      margin-bottom: 20px;
+    }
+    input:focus {
+      border-color: #4285f4;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background-color: #357ae8;
+    }
+    #output {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #202124;
+    }
+  </style>
+  <script>
+    function base32Decode(input) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+      let buffer = 0, bitsLeft = 0, output = new Uint8Array(Math.ceil(input.length * 5 / 8)), outputIndex = 0;
+
+      for (let i = 0; i < input.length; i++) {
+        const val = alphabet.indexOf(input[i].toUpperCase());
+        if (val === -1) continue; // Ignore invalid characters
+        buffer = (buffer << 5) | val;
+        bitsLeft += 5;
+
+        if (bitsLeft >= 8) {
+          bitsLeft -= 8;
+          output[outputIndex++] = buffer >> bitsLeft;
+          buffer &= (1 << bitsLeft) - 1;
+        }
+      }
+      return output.slice(0, outputIndex);
+    }
+
+    function AWSAccount_from_AWSKeyID(AWSKeyID) {
+      if (AWSKeyID.length <= 4) return "Invalid Key ID";
+      let trimmed_AWSKeyID = AWSKeyID.slice(4);
+      let decoded = base32Decode(trimmed_AWSKeyID);
+      let y = decoded.slice(0, 6);
+      let z = BigInt('0x' + Array.from(y).map(b => b.toString(16).padStart(2, '0')).join(''));
+      let mask = BigInt('0x7fffffffff80');
+      let e = (z & mask) >> 7n;
+      return e.toString().padStart(12, '0');
+    }
+
+    function handleSearch() {
+      const AWSKeyID = document.getElementById('searchInput').value;
+      if (AWSKeyID) {
+        const accountId = AWSAccount_from_AWSKeyID(AWSKeyID);
+        document.getElementById('output').innerText = `Account ID: ${accountId}`;
+      } else {
+        document.getElementById('output').innerText = 'Please enter a valid AWS Access Key ID.';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <a href="https://github.com/nagwww/aws-account-id-extractor" target="_blank">GitHub</a>
+  </div>
+  <h1>
+    <span>A</span><span>W</span><span>S</span><span> Account ID Extractor</span>
+  </h1>
+  <p>Enter your AWS Access Key ID below: (<i>Example : AKIAEXAMPLE123456</i>)</p>
+  <input type="text" id="searchInput" placeholder="AWS Access Key ID">
+  <br>
+  <button onclick="handleSearch()">Search</button>
+  <p id="output"></p>
+</body>
+</html>
+
