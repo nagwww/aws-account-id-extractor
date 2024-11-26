@@ -37,26 +37,26 @@ The Python implementation is available as a PyPI package.
 #### **Setup**
 
 Install the library:
-
-bash  
-Copy code  
-`pip install aws_access_key_id`
+ 
+```
+pip install aws_access_key_id
+```
 
 #### **Usage**
 
-python  
-Copy code  
-`from aws_access_key_id import get_aws_account_id, get_resource_type`
+```
+from aws_access_key_id import get_aws_account_id, get_resource_type
 
-`aws_access_key_id = "AKIAEXAMPLE123456"`
+aws_access_key_id = "AKIAEXAMPLE123456"
 
-`# Extract AWS Account ID`  
-`account_id = get_aws_account_id(aws_access_key_id)`  
-`print(f"AWS Account ID: {account_id}")`
+# Extract AWS Account ID  
+account_id = get_aws_account_id(aws_access_key_id)  
+print(f"AWS Account ID: {account_id}")
 
-`# Identify resource type`  
-`resource_type = get_resource_type(aws_access_key_id[:4])`  
-`print(f"Resource Type: {resource_type}")`
+# Identify resource type  
+resource_type = get_resource_type(aws_access_key_id[:4])
+print(f"Resource Type: {resource_type}")
+```
 
 ### **2\. JavaScript**
 
@@ -66,15 +66,16 @@ The JavaScript implementation uses plain Node.js.
 
 Install dependencies:
 
-bash  
-Copy code  
-`npm install`
+
+```
+npm install
+```
 
 #### **Usage**
-
-javascript  
-Copy code  
-`node aws_account_id_extractor.js `
+ 
+```
+node aws_account_id_extractor.js
+```
 
 ### **3\. Java**
 
@@ -83,10 +84,10 @@ The Java implementation is structured as a Maven project.
 #### **Setup**
 
 Compile the project:
-
-bash  
-Copy code  
-`javac AWSAccountIDExtractor.java`
+  
+```
+javac AWSAccountIDExtractor.java
+```
 
 #### **Usage**
 
@@ -102,20 +103,19 @@ The C\# implementation is part of a .NET Core project.
 
 Build the project:
 
-bash  
-Copy code  
-`dotnet build`
+```
+dotnet build
+```
 
 #### **Usage**
-
-csharp  
-Copy code  
-`csc AwsAccountIdExtractor.cs `
-
-`
-./AwsAccountIdExtractor
-`
+  
 ```
+csc AwsAccountIdExtractor.cs
+```
+
+```
+./AwsAccountIdExtractor
+
 AWS Account ID: 123456789012
 Resource Type: IAM User
 ```
@@ -127,19 +127,17 @@ The Go implementation provides a simple utility function.
 #### **Setup**
 
 Install dependencies:
-
-bash  
-Copy code  
-`brew install go`
+ 
+```
+brew install go
+```
 
 #### **Usage**
-
-go  
-Copy code  
-`
+ 
+```
 cd examples/go
 go run main.go
-`
+```
 
 ---
 
@@ -174,6 +172,8 @@ This project is licensed under the MIT License.
 
 ## **Acknowledgments**
 
-Special thanks to AWS for their comprehensive documentation, which helped guide this implementation.
+
+* Thanks AWS for their comprehensive documentation, which helped guide this implementation.
+* Special Thanks Tal Be'ery ( [@ZenGo (KZen](https://x.com/TalBeerySec) ) https://medium.com/@TalBeerySec/a-short-note-on-aws-key-id-f88cc4317489
 
 
