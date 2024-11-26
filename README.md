@@ -13,7 +13,8 @@ AWS Access Key IDs often include encoded information about the AWS account and r
 
 The examples are available in the following languages:
 
-* **Python**  
+* **Python**
+  * Using the python module - https://pypi.org/project/aws-access-key-id/
 * **JavaScript**  
 * **Java**  
 * **C\#**  
