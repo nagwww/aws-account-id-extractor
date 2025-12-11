@@ -144,6 +144,7 @@ go run main.go
 
 ## **AWS Access Key ID Structure**
 
+#### 1. Prefix (4 chars)
 AWS Access Key IDs typically begin with a 4-character prefix indicating the resource type:
 
 | Prefix | Resource Type |
@@ -152,6 +153,18 @@ AWS Access Key IDs typically begin with a 4-character prefix indicating the reso
 | ASIA | Temporary Security Credential |
 | AIDA | Federated User |
 | ANPA | S3 Service Role |
+
+
+#### 2. Body (16 chars)
+
+This is a Base32-encoded opaque identifier that AWS maps internally to:
+
+* AWS account
+* IAM entity (User / Role session)
+* Creation timestamp
+* Key version
+
+This section appears random, but AWS does embed internal metadata (not reversible externally).
 
 ---
 
